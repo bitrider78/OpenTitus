@@ -185,7 +185,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
             SDL_SetAlpha(image, SDL_SRCALPHA, image_alpha);
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
             SDL_BlitSurface(image, &src, screen, &dest);
-            SDL_Flip(screen);
+            SDL_FlipVirtual(screen);
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
         checkmodule();
@@ -283,7 +283,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
             SDL_SetAlpha(image, SDL_SRCALPHA, 255 - image_alpha);
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
             SDL_BlitSurface(image, &src, screen, &dest);
-            SDL_Flip(screen);
+            SDL_FlipVirtual(screen);
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
         checkmodule();
@@ -300,7 +300,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
     case 1: //visible until keypress, then fade out
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         SDL_BlitSurface(image, &src, screen, &dest);
-        SDL_Flip(screen);
+        SDL_FlipVirtual(screen);
 
         retval = waitforbutton();
         if (retval < 0) {
@@ -347,7 +347,7 @@ int viewimage(char * imagefile, int imageformat, int displayformat, int delay) {
             SDL_SetAlpha(image, SDL_SRCALPHA, 255 - image_alpha);
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
             SDL_BlitSurface(image, &src, screen, &dest);
-            SDL_Flip(screen);
+            SDL_FlipVirtual(screen);
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
         checkmodule();

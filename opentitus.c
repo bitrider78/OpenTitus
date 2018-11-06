@@ -148,7 +148,13 @@ int init() {
 #ifdef _DINGUX
     //fullscreen
     SDL_ShowCursor(SDL_DISABLE);
+#ifdef _RS97
+    realScreen = SDL_SetVideoMode(reswidth, resheight*2, bitdepth, SDL_HWSURFACE);
+    screen = SDL_CreateRGBSurface(SDL_SWSURFACE, reswidth, resheight, bitdepth, 0, 0, 0, 0);
+#else
     screen = SDL_SetVideoMode(reswidth, resheight, bitdepth, SDL_SWSURFACE);
+#endif
+
 #else
     switch (videomode) {
     case 0: //window mode

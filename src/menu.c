@@ -187,7 +187,7 @@ int viewmenu(char * menufile, int menuformat) {
         SDL_BlitSurface(image, &src, screen, &dest);
         SDL_BlitSurface(image, &sel[1], screen, &sel[0]);
         SDL_BlitSurface(image, &sel[0], screen, &sel[selection]);
-        SDL_Flip(screen);
+        SDL_FlipVirtual(screen);
         titus_sleep();
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
@@ -239,7 +239,7 @@ int viewmenu(char * menufile, int menuformat) {
         SDL_BlitSurface(image, &src, screen, &dest);
         SDL_BlitSurface(image, &sel[1], screen, &sel[0]);
         SDL_BlitSurface(image, &sel[0], screen, &sel[selection]);
-        SDL_Flip(screen);
+        SDL_FlipVirtual(screen);
         titus_sleep();
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
@@ -316,7 +316,7 @@ int viewmenu(char * menufile, int menuformat) {
         SDL_BlitSurface(image, &src, screen, &dest);
         SDL_FillRect(screen, &sel[0], 0); //SDL_MapRGB(surface->format, 0, 0, 0));
         SDL_BlitSurface(image, &sel[0], screen, &sel[selection]);
-        SDL_Flip(screen);
+        SDL_FlipVirtual(screen);
         titus_sleep();
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
@@ -341,7 +341,7 @@ int enterpassword(){
     char tmpchar;
 
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
 
     SDL_Print_Text("CODE", 111, 80);
 
@@ -427,7 +427,7 @@ int enterpassword(){
         }
 #endif
         SDL_Print_Text(code, 159, 80);
-        SDL_Flip(screen);
+        SDL_FlipVirtual(screen);
         titus_sleep();
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
@@ -445,24 +445,24 @@ int enterpassword(){
             SDL_Print_Text("LEVEL", 103, 104);
             sprintf(code, "%d", i + 1);
             SDL_Print_Text(code, 199 - 8 * strlen(code), 104);
-            SDL_Flip(screen);
+            SDL_FlipVirtual(screen);
             retval = waitforbutton();
 
             if (retval < 0)
                 return retval;
 
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-            SDL_Flip(screen);
+            SDL_FlipVirtual(screen);
 
             return (i + 1);
         }
     }
 
     SDL_Print_Text("!  WRONG CODE  !", 87, 104);
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
     retval = waitforbutton();
 
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
     return (retval);
 }

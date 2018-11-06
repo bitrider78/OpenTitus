@@ -31,6 +31,13 @@
 
 #include "SDL/SDL.h"
 
+#ifdef _RS97
+SDL_Surface *realScreen; //Backbuffer
+void SDL_FlipVirtual(SDL_Surface *scr);
+#else
+#define SDL_FlipVirtual SDL_Flip
+#endif 
+
 SDL_Surface *screen; //Backbuffer
 SDL_Surface *tilescreen; //Tile screen
 

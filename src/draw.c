@@ -298,10 +298,22 @@ SDL_Surface *sprite_from_cache(TITUS_level *level, TITUS_sprite *spr) {
 	}
 }
 			
+#ifdef _RS97
+void SDL_FlipVirtual(SDL_Surface *src) {
+	for(int y=0; y < resheight; y++) {
+		memcpy(realScreen->pixels + y * 2 * realScreen->pitch, 
+				src->pixels + y * src->pitch, src->pitch);
+		memcpy(realScreen->pixels + y * 2 * realScreen->pitch + realScreen->pitch,
+				src->pixels + y * src->pitch, src->pitch);
+	}
+	
+	SDL_Flip(realScreen);
+}		
+#endif
 		
 int flip_screen(bool slow) {
     int tick = SDL_GetTicks();
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
     int oldtick = tick;
     tick = SDL_GetTicks();
     SUBTIME[14] = tick - oldtick;
@@ -430,7 +442,7 @@ int viewstatus(TITUS_level *level, bool countbonus){
     sprintf(tmpchars, "%d", level->lives);
     SDL_Print_Text(tmpchars, 28 * 8 - strlen(tmpchars) * 8, 11 * 12);
 
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
 
     if (countbonus && (level->extrabonus >= 10)) {
         retval = waitforbutton();
@@ -442,7 +454,7 @@ int viewstatus(TITUS_level *level, bool countbonus){
                 level->extrabonus--;
                 sprintf(tmpchars, "%2d", level->extrabonus);
                 SDL_Print_Text(tmpchars, 28 * 8 - strlen(tmpchars) * 8, 10 * 12);
-                SDL_Flip(screen);
+                SDL_FlipVirtual(screen);
                 for (j = 0; j < 15; j++) {
                     NO_FAST_CPU(false);
                 }
@@ -450,7 +462,7 @@ int viewstatus(TITUS_level *level, bool countbonus){
             level->lives++;
             sprintf(tmpchars, "%d", level->lives);
             SDL_Print_Text(tmpchars, 28 * 8 - strlen(tmpchars) * 8, 11 * 12);
-            SDL_Flip(screen);
+            SDL_FlipVirtual(screen);
             for (j = 0; j < 10; j++) {
                 NO_FAST_CPU(false);
             }
@@ -462,7 +474,7 @@ int viewstatus(TITUS_level *level, bool countbonus){
         return retval;
 
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
 
     return (0);
 }
@@ -574,7 +586,7 @@ int fadeout() {
         SDL_SetAlpha(image, SDL_SRCALPHA, 255 - image_alpha);
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         SDL_BlitSurface(image, &src, screen, &dest);
-        SDL_Flip(screen);
+        SDL_FlipVirtual(screen);
 
 #ifdef AUDIO_MIKMOD_SINGLETHREAD
         checkmodule();
@@ -597,7 +609,7 @@ int view_password(TITUS_level *level, uint8 level_index) {
 
     CLOSE_SCREEN();
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
 
     if (game == 0) { //Titus
         SDL_Print_Text("LEVEL", 13 * 8, 13 * 8);
@@ -610,12 +622,12 @@ int view_password(TITUS_level *level, uint8 level_index) {
     SDL_Print_Text("CODE", 14 * 8, 10 * 8);
     SDL_Print_Text(levelcode[level_index], 20 * 8, 10 * 8);
 
-    SDL_Flip(screen);
+    SDL_FlipVirtual(screen);
     retval = waitforbutton();
     if (retval < 0)
         return retval;
 
-    //SDL_Flip(screen);
+    //SDL_FlipVirtual(screen);
     OPEN_SCREEN();
     return (0);
 }
